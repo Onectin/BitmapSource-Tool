@@ -1,7 +1,6 @@
 -- BiTMap Switcher
 
-
-try(DestroyDialog ::nazboobBTMswitcher) catch()
+try(DestroyDialog ::bitmapSourceTool) catch()
 
 _localPath = "D:\NZB_SCRIPT\_MAPS"
 _lclPathCount = _localPath.count
@@ -13,14 +12,14 @@ _outOfRangePath = #()
 
 _bitmapTexture = getClassInstances BitmapTexture
 
-fn _FNsync =
+function _FNsync =
 (
 	DOSCommand ("XCOPY " + _networkPath + " " + _localPath + " /E /D /C /Y")
 )
 
-fn _FNswitch _locToNet =
+function _FNswitch _bool =
 (
-	if _locToNet == 0 do -- Local to Network
+	if _bool == 0 do -- Local to Network
 	(
 		_srcPath = _localPath
 		_srcStrCnt = _lclPathCount
@@ -28,7 +27,7 @@ fn _FNswitch _locToNet =
 		_tgtStrCnt = _nwPathCount
 	)
 	
-	if _locToNet == 1 do -- Netw<ork to Local
+	if _bool == 1 do -- Netw<ork to Local
 	(
 		_tgtPath = _localPath
 		_tgtStrCnt = _lclPathCount
@@ -58,26 +57,24 @@ fn _FNswitch _locToNet =
 )
 
 
-rollout nazboobBTMswitcher "NZB - Bitmap Switcher" width:488 height:208
+rollout bitmapSourceTool "Bitmap Source Tool" width:488 height:208
 (
-	groupBox _grpPaths "Paths" pos:[8,8] width:472 height:80
+	groupBox 	_grpPaths "Paths" pos:[8,8] width:472 height:80
 	
-	label _lblNetworks "NETWORK (master)" pos:[16,27] width:104 height:16
-	editText _edtNetworks "" pos:[120,24] width:268 height:24 text:_networkPath bold:true
-	button _btnBrowseNetwork "Browse..." pos:[396,24] width:56 height:24
-	button _btnReset1 "R" pos:[456,24] width:16 height:24
+	label 			_lblNetworks 		"NETWORK (master)" 			pos:[16,27] 	width:104 	height:16
+	editText 		_edtNetworks 		"" 							pos:[120,24] 	width:268 	height:24 	text:_networkPath bold:true
+	button 			_btnBrowseNetwork 	"Browse..." 				pos:[396,24] 	width:56 	height:24
 	
-	label _lblLocal "LOCAL (slave)" pos:[16,59] width:80 height:16
-	editText _edtLocal "" pos:[120,56] width:268 height:24 text:_localPath bold:true
-	button _btnBrowseLocal "Browse..." pos:[396,56] width:56 height:24
-	button _btnReset2 "R" pos:[456,56] width:16 height:24
+	label 			_lblLocal 			"LOCAL (slave)" 			pos:[16,59] 	width:80 	height:16
+	editText 		_edtLocal 			"" 							pos:[120,56] 	width:268 	height:24 	text:_localPath bold:true
+	button 			_btnBrowseLocal 	"Browse..." 				pos:[396,56] 	width:56 	height:24
 	
-	button _btnSync "SYNC (Network to Local)" pos:[8,96] width:472 height:24
+	button 			_btnSync 			"SYNC (Network to Local)" 	pos:[8,96] 		width:472 	height:24
 	
-	groupBox _grpUpdate "Update Materials" pos:[8,128] width:472 height:72
-	radioButtons _rdoDirection "" pos:[132,144] width:260 height:16 labels:#("Local to Network", "Network to Local") columns:2
-	button _btnUpdate "UPDATE" pos:[16,168] width:376 height:24
-	checkbox _chkLog "Display Log" pos:[396,168] width:80 height:24 checked:true
+	groupBox 		_grpUpdate 			"Update Materials" 			pos:[8,128] 	width:472 	height:72
+	radioButtons 	_rdoDirection 		"" 							pos:[132,144] 	width:260 	height:16 	labels:#("Local to Network", "Network to Local") columns:2
+	button 			_btnUpdate 			"UPDATE" 					pos:[16,168] 	width:376 	height:24
+	checkbox 		_chkLog 			"Display Log" 				pos:[396,168] 	width:80 	height:24 	checked:true
 	
 	on _btnBrowseNetwork pressed do
 	(
@@ -87,16 +84,6 @@ rollout nazboobBTMswitcher "NZB - Bitmap Switcher" width:488 height:208
 		on _btnBrowseLocal pressed do
 	(
 		_edtLocal.text = getSavepath()
-	)
-	
-	on _btnReset1 pressed do
-	(
-		_edtNetworks.text = _networkPath
-	)
-	
-	on _btnReset2 pressed do
-	(
-		_edtLocal.text = _localPath
 	)
 
 	on _btnSync pressed do
@@ -158,4 +145,4 @@ rollout nazboobBTMswitcher "NZB - Bitmap Switcher" width:488 height:208
 	
 )
 
-createDialog nazboobBTMswitcher
+createDialog bitmapSourceTool
